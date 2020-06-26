@@ -1,0 +1,8 @@
+{
+  "LevelJET": {
+    "mainSetting": {
+      "env": "default",
+      "logLevel": "info"
+    }
+  }
+}
