@@ -1,5 +1,5 @@
 {
-  "hm2influx": {
+  "hm-node-runner": {
     "mainSetting": {
       "env": "default",
       "logLevel": "info"

@@ -14,12 +14,19 @@
   "license": "MIT",
   "main": "app.ts",
   "scripts": {
-    "start": "ts-node ./app.ts",
-    "start:dev-server": "nodemon ./app.ts",
+    "start": "set NODE_ENV=dev ts-node ./app.ts",
+    "start:dev": "set NODE_ENV=dev nodemon ./app.ts",
     "deploy": "pm2 restart statusLight",
-    "test": "jest"
+    "test": "jest --config jestconfig.json",
+    "build": "tsc",
+    "format": "prettier --write \"**/*.ts\"",
+    "lint": "tslint -p tsconfig.json",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
+    "@types/app-root-path": "^1.2.4",
     "app-root-path": "^3.0.0",
     "config": "^3.3.1",
     "homematic-js-xmlapi": "^0.4.1",
@@ -28,10 +35,17 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.4",
+    "@types/jest": "^26.0.0",
+    "@types/node": "^12.12.47",
+    "@types/config": "^0.0.36",
+    "expect": "latest",
     "ts-node": "^8.10.2",
     "tslint": "^6.1.2",
     "typescript": "^3.9.5",
-    "jest": "latest"
+    "jest": "latest",
+    "prettier": "^2.0.5",
+    "ts-jest": "^26.1.1",
+    "tslint-config-prettier": "^1.18.0"
   },
   "optionalDependencies": {
     "fsevents": "^2.1.3"

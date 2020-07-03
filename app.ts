@@ -1,44 +1,31 @@
-import { XmlApi, DeviceManager } from "homematic-js-xmlapi"
-import {exportValues } from './src/InfluxExporter'
+'use strict'
+import { exportValues } from './src/InfluxExporter';
+import { getCurrentStates, getDeviceList } from './src/ccuApi';
 
-var pjson = require('./package.json');
-var winston = require('./config/winston');
-const { loggers } = require('winston')
-const logger = loggers.get('appLogger');
-
+import pJson from './package.json';
+import { logger } from './src/logger';
+// import * as config from "config";
 const config = require('config');
-const myconfig = config.get('hm2influx');
+const myConfig = config.get('hm-node-runner');
 
-logger.info("hm2influx " + pjson.version);
+logger.info(pJson.name + ' ' + pJson.version + ' (' + myConfig.mainSetting.env + ')');
 
-const devMgr = new DeviceManager();
-const xmlApi = new XmlApi(myconfig.CCU.host, myconfig.CCU.port);
+logger.info('Collect DeviceList from CCU');
+getDeviceList();
+setTimeout(startPollingIntervall, 5000);
 
-//queryInflux("Bewegung", "Garten", "Sensor.Garten.Einfahrt")
-
-xmlApi.getDeviceList().then((deviceList) => {
-  if (deviceList) devMgr.updateDeviceList(deviceList);
-});
-xmlApi.getStateList().then((deviceList) => {
-  if (deviceList) devMgr.updateDeviceList(deviceList);
-});
-
-setTimeout(test, 10000);
-function test () {
-  //devMgr.printDeviceList();
-  devMgr.printDeviceTypes();
-
-  console.log("---------------------------------------------");
-  exportValues(devMgr);
-  console.log("---------------------------------------------");
-  console.log("FInish");
+function startPollingIntervall() {
+  logger.info('Start intervall polling of current values');
+  updateCurrentStates();
+  setInterval(() => updateCurrentStates(), myConfig.CCU.pollingIntervall*1000);
 }
 
-//runIntervall = function() {
-//    setInterval(function () {
-//        console.log("Hello");
-//    }, 5000);
-//};
-//setTimeout(runIntervall, 5000);
+function updateCurrentStates() {
+  logger.debug('start updating current states');
+  getCurrentStates().then((devMgr) => {
+    logger.info('... Current devices: ' + devMgr.mapCount());
+    exportValues(devMgr);
+  });
+}
 
-console.log("Finished")
+logger.info('Startup finished');
