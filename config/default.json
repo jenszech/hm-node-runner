@@ -1,5 +1,5 @@
 {
-  "LevelJET": {
+  "hm2influx": {
     "mainSetting": {
       "env": "default",
       "logLevel": "info"

@@ -2,7 +2,7 @@ let appRoot = require('app-root-path');
 const config = require('config');
 const { loggers, format, transports } = require('winston');
 
-let myconfig = config.get('LevelJET.mainSetting');
+let myconfig = config.get('hm2influx.mainSetting');
 
 let options = {
     file: {

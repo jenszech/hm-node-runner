@@ -1,34 +1,38 @@
-import { XmlApi } from "homematic-js-xmlapi"
-import DeviceManager from "./src/DeviceManager";
+import { XmlApi, DeviceManager } from "homematic-js-xmlapi"
+import {exportValues } from './src/InfluxExporter'
 
 var pjson = require('./package.json');
 var winston = require('./config/winston');
 const { loggers } = require('winston')
 const logger = loggers.get('appLogger');
 
-const argv = require('minimist')(process.argv.slice(2));
-// // Check whether host is set via cli arguments or environment
-const host = argv.host || process.env.HOST || '0.0.0.0'
-// Check whether port is set via cli arguments or environment
-const port = argv.port || process.env.PORT || 80;
+const config = require('config');
+const myconfig = config.get('hm2influx');
 
-logger.info("Homematic LevelJET connector " + pjson.version);
-console.log("Hello World")
+logger.info("hm2influx " + pjson.version);
 
 const devMgr = new DeviceManager();
-const xmlApi = new XmlApi(host, port);
-xmlApi.getDeviceList(devMgr.updateCallback);
-setTimeout(test, 5000);
+const xmlApi = new XmlApi(myconfig.CCU.host, myconfig.CCU.port);
 
+//queryInflux("Bewegung", "Garten", "Sensor.Garten.Einfahrt")
+
+xmlApi.getDeviceList().then((deviceList) => {
+  if (deviceList) devMgr.updateDeviceList(deviceList);
+});
+xmlApi.getStateList().then((deviceList) => {
+  if (deviceList) devMgr.updateDeviceList(deviceList);
+});
+
+setTimeout(test, 10000);
 function test () {
-    console.log("Run Test");
-    xmlApi.getState("1481", devMgr.updateCallback);
-}
+  //devMgr.printDeviceList();
+  devMgr.printDeviceTypes();
 
-//xmlApi.getSysVarList();
-//xmlApi.getSysVar("17257");
-//xmlApi.getStateList();
-//xmlApi.getState("1481");
+  console.log("---------------------------------------------");
+  exportValues(devMgr);
+  console.log("---------------------------------------------");
+  console.log("FInish");
+}
 
 //runIntervall = function() {
 //    setInterval(function () {

@@ -1,8 +1,0 @@
-{
-  "leveljet": {
-    "mainSetting": {
-      "env": "dev",
-      "logLevel": "debug"
-    }
-  }
-}
