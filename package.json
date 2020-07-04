@@ -14,7 +14,7 @@
   "license": "MIT",
   "main": "app.ts",
   "scripts": {
-    "start": "node ./lib/app.js",
+    "start": "node ./lib/hm-node-runner",
     "start:ts": "set NODE_ENV=dev ts-node ./app.ts",
     "start:dev": "set NODE_ENV=dev nodemon ./app.ts",
     "deploy": "pm2 restart statusLight",
