@@ -1,9 +1,6 @@
+import { DeviceStatistic } from 'homematic-js-xmlapi';
 export declare class Status {
   serviceStart: Date;
-  lastDeviceUpdateCount: number;
-  lastDeviceUpdateTime: Date;
-  deviceCount: number;
-  channelCount: number;
-  datapointCount: number;
+  deviceStats: DeviceStatistic;
   getJson(): object;
 }
