@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 import { exportValues } from './influx/InfluxExporter';
 import { getCurrentStates, getDeviceList } from './ccu/ccuApi';
 import { Status } from './healthcheck/Status';
@@ -13,11 +13,11 @@ const myConfig = config.get('hm-node-runner');
 logger.info(pJson.name + ' ' + pJson.version + ' (' + myConfig.mainSetting.env + ')');
 const status = new Status();
 
-//Start Express App and interface
+// Start Express App and interface
 import { initStatusApp } from './healthcheck';
 initStatusApp(status);
 
-//At first collect all devices and delay state polling
+// At first collect all devices and delay state polling
 logger.info('Collect DeviceList from CCU');
 getDeviceList();
 setTimeout(startPollingIntervall, 5000);
@@ -28,7 +28,7 @@ logger.info('Startup finished');
 function startPollingIntervall() {
   logger.info('Start intervall polling of current values');
   updateCurrentStates();
-  setInterval(() => updateCurrentStates(), myConfig.CCU.pollingIntervall*1000);
+  setInterval(() => updateCurrentStates(), myConfig.CCU.pollingIntervall * 1000);
 }
 
 function updateCurrentStates() {
@@ -41,4 +41,3 @@ function updateCurrentStates() {
   });
 }
 // -----------------------------------------------------------------------------
-

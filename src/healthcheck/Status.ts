@@ -8,19 +8,19 @@ export class Status {
   public channelCount: number = 0;
   public datapointCount: number = 0;
 
-  public getJson() : object{
+  public getJson(): object {
     return {
-      "health": "OK",
-      "StartTime": this.serviceStart,
-      "Device": {
-        "LastUpdate": {
-          "Updated": this.lastDeviceUpdateCount,
-          "Timestamp": this.lastDeviceUpdateTime
+      health: 'OK',
+      StartTime: this.serviceStart,
+      Device: {
+        LastUpdate: {
+          Updated: this.lastDeviceUpdateCount,
+          Timestamp: this.lastDeviceUpdateTime,
         },
-        "Devices": this.deviceCount,
-        "Channels": this.channelCount,
-        "Datapoints": this.datapointCount
-      }
-    }
+        Devices: this.deviceCount,
+        Channels: this.channelCount,
+        Datapoints: this.datapointCount,
+      },
+    };
   }
 }

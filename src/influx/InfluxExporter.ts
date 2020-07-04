@@ -47,8 +47,9 @@ function export2InfluxByType(channel: Channel, type: number, measure: any) {
       );
     }
   } else {
-    logger.warn('Datapoint undefined ---> ' +
-      measure.name + ' : ' + channel.name + ' (' + measure.data + ')');
+    logger.warn(
+      'Datapoint undefined ---> ' + measure.name + ' : ' + channel.name + ' (' + measure.data + ')',
+    );
   }
 }
 

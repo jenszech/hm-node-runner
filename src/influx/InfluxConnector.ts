@@ -40,17 +40,19 @@ export function queryInflux(type: string, area: string, name: string) {
 
 export function postToInflux(type: string, area: string, name: string, value: number) {
   // logger.debug(type + '@' + area + ' -> ' + name +': ' + value);
-  influx.writePoints([
+  influx
+    .writePoints([
       {
-          measurement: 'homematic',
-          tags: {
-              type,
-              area,
-              name
-          },
-          fields: {value},
-      }
-  ]).catch((error) => {
-    logger.error(error);
-  })
+        measurement: 'homematic',
+        tags: {
+          type,
+          area,
+          name,
+        },
+        fields: { value },
+      },
+    ])
+    .catch((error) => {
+      logger.error(error);
+    });
 }
