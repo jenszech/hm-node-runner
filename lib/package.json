@@ -12,11 +12,11 @@
         "url": "git+https://github.com/jenszech/"
     },
     "license": "MIT",
-    "main": "app.ts",
+    "main": "src/main.ts",
     "scripts": {
-        "start": "node ./lib/app.js",
-        "start:ts": "set NODE_ENV=dev ts-node ./app.ts",
-        "start:dev": "set NODE_ENV=dev nodemon ./app.ts",
+        "start": "node ./lib/hm-node-runner",
+        "start:ts": "set NODE_ENV=dev ts-node src/main.ts",
+        "start:dev": "set NODE_ENV=dev nodemon src/main.ts",
         "deploy": "pm2 restart statusLight",
         "test": "jest --config jestconfig.json",
         "build": "tsc",
@@ -28,8 +28,10 @@
     },
     "dependencies": {
         "@types/app-root-path": "^1.2.4",
+        "@types/express": "^4.17.6",
         "app-root-path": "^3.0.0",
         "config": "^3.3.1",
+        "express": "^4.17.1",
         "homematic-js-xmlapi": "^0.4.1",
         "influx": "^5.5.2",
         "winston": "^3.3.3"
