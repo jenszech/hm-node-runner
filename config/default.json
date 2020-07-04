@@ -4,6 +4,9 @@
       "env": "default",
       "logLevel": "info"
     },
+    "healthcheck": {
+      "port": 8080
+    },
     "CCU": {
       "host": "<INSER YOUR IP>",
       "port": 80,

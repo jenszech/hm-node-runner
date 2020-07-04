@@ -8,7 +8,7 @@ let status2: Status = new Status();
 
 export function initStatusApp(status: Status) {
   const statusApp = express();
-  const port = 8080; // default port to listen
+  const port = myConfig.healthcheck.port
   status2 = status;
 
   logger.info('Initialise http listening')

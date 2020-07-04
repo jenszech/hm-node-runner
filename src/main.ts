@@ -1,7 +1,7 @@
 'use strict'
 import { exportValues } from './influx/InfluxExporter';
 import { getCurrentStates, getDeviceList } from './ccu/ccuApi';
-import { Status } from './status/Status';
+import { Status } from './healthcheck/Status';
 
 import pJson from '../package.json';
 import { logger } from './logger';
@@ -14,7 +14,7 @@ logger.info(pJson.name + ' ' + pJson.version + ' (' + myConfig.mainSetting.env +
 const status = new Status();
 
 //Start Express App and interface
-import { initStatusApp } from './status';
+import { initStatusApp } from './healthcheck';
 initStatusApp(status);
 
 //At first collect all devices and delay state polling
