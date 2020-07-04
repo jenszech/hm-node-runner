@@ -1,7 +1,7 @@
 import { DeviceManager, DataType, ValueType, Channel, DataPoint } from 'homematic-js-xmlapi';
 import { postToInflux } from './InfluxConnector';
 
-import { logger } from './logger';
+import { logger } from '../logger';
 
 const config = require('config');
 const myConfig = config.get('hm-node-runner');

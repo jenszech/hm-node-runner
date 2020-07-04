@@ -1,6 +1,6 @@
 import { XmlApi, DeviceManager } from 'homematic-js-xmlapi';
 
-import { logger } from './logger';
+import { logger } from '../logger';
 
 const config = require('config');
 const myConfig = config.get('hm-node-runner');

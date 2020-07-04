@@ -106,7 +106,7 @@ The environment configuration, on the other hand, contains all local adjustments
 Setup a background process with autostart
 ```
 sudo npm install pm2@latest -g
-pm2 start bin/statusLight
+pm2 start lib/hm-node-runner
 pm2 startup systemd
 sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
 pm2 list

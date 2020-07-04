@@ -1,6 +1,6 @@
 import { InfluxDB, FieldType } from 'influx';
 const config = require('config');
-import { logger } from './logger';
+import { logger } from '../logger';
 
 const myConfig = config.get('hm-node-runner');
 const influx = new InfluxDB({
