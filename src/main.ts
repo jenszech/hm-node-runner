@@ -34,9 +34,8 @@ function startPollingIntervall() {
 function updateCurrentStates() {
   logger.debug('start updating current states');
   getCurrentStates().then((devMgr) => {
-    status.lastDeviceUpdateTime = new Date();
-    status.deviceCount = devMgr.mapCount();
-    logger.info('... Current devices: ' + devMgr.mapCount());
+    status.deviceStats = devMgr.getStatistic();
+    logger.debug('... Current devices: ' + status.deviceStats.deviceCount);
     exportValues(devMgr);
   });
 }
