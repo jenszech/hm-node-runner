@@ -1,5 +1,5 @@
 'use strict';
-import { DeviceStatistic } from 'homematic-js-xmlapi'
+import { DeviceStatistic } from 'homematic-js-xmlapi';
 
 export class Status {
   public serviceStart: Date = new Date();
