@@ -4,11 +4,11 @@ import { logger } from './logger';
 
 const myConfig = config.get('hm-node-runner');
 const influx = new InfluxDB({
-  host: 'smartpi',
-  database: 'smartdb',
+  host: myConfig.influx.host,
+  database: myConfig.influx.database,
   schema: [
     {
-      measurement: 'homematic',
+      measurement: myConfig.influx.measurement,
       fields: {
         value: FieldType.FLOAT,
       },

@@ -14,7 +14,8 @@
   "license": "MIT",
   "main": "app.ts",
   "scripts": {
-    "start": "set NODE_ENV=dev ts-node ./app.ts",
+    "start": "node ./lib/app.js",
+    "start:ts": "set NODE_ENV=dev ts-node ./app.ts",
     "start:dev": "set NODE_ENV=dev nodemon ./app.ts",
     "deploy": "pm2 restart statusLight",
     "test": "jest --config jestconfig.json",

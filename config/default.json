@@ -3,6 +3,18 @@
     "mainSetting": {
       "env": "default",
       "logLevel": "info"
-    }
+    },
+    "CCU": {
+      "host": "<INSER YOUR IP>",
+      "port": 80,
+      "pollingIntervall": 60
+    },
+    "influx": {
+      "host": "<INSERT YOUR IP>",
+      "database": "smartdb",
+      "measurement": "homematic"
+    },
+    "exportValues": [
+    ]
   }
 }
