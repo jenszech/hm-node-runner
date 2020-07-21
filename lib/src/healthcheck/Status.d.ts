@@ -1,6 +1,7 @@
-import { DeviceStatistic } from 'homematic-js-xmlapi';
+import { DeviceStatistic, VariableStatistic } from 'homematic-js-xmlapi';
 export declare class Status {
-  serviceStart: Date;
-  deviceStats: DeviceStatistic;
-  getJson(): object;
+    serviceStart: Date;
+    deviceStats: DeviceStatistic;
+    variableStats: VariableStatistic;
+    getJson(): object;
 }

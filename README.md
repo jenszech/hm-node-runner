@@ -16,13 +16,13 @@ sudo apt-get install -y nodejs
 node -v
 ```
 ### Installation
-#### Installation des StatusAmpel Projekts
+#### Install hm-node-runner project
 ```
 git clone https://github.com/jenszech/hm-node-runner.git
 cd hm-node-runner
 npm install
 ```
-#### Setpup an environment variable
+#### Setup an environment variable
 In order to be able to use different configurations for each environment (Dev, Integ, Prod), the current environment must be set on the system.
 To do this, an environment file must be created and a line inserted.
 ``` 
