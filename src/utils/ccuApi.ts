@@ -54,11 +54,9 @@ export function setValuesList(valueMap: Map<string, number | boolean>) {
 }
 
 function setValue(id: string, value: number | boolean) {
-  xmlApi
-    .setState(id, convertValue(value))
-    .catch((error) => {
-      logger.error('ERROR:', error);
-    });
+  xmlApi.setState(id, convertValue(value)).catch((error) => {
+    logger.error('ERROR:', error);
+  });
 }
 
 function convertValue(value: number | boolean): number {
