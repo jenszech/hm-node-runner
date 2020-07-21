@@ -1,6 +1,9 @@
 'use strict';
 import { DeviceStatistic, VariableStatistic } from 'homematic-js-xmlapi';
 import { km200Statistic } from '../jobs/km200Importer';
+import pJson from '../../package.json';
+const config = require('config');
+const myConfig = config.get('hm-node-runner');
 
 export class Status {
   public serviceStart: Date = new Date();
@@ -11,6 +14,7 @@ export class Status {
     return {
       health: 'OK',
       StartTime: this.serviceStart,
+      version: pJson.version + ' (' + myConfig.mainSetting.env + ')',
       CCU: {
         Device: {
           LastUpdate: {
