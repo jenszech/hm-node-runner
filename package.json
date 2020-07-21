@@ -32,7 +32,8 @@
     "app-root-path": "^3.0.0",
     "config": "^3.3.1",
     "express": "^4.17.1",
-    "homematic-js-xmlapi": "^0.6.1",
+    "km200-api": "^0.2.3",
+    "homematic-js-xmlapi": "^0.7.1",
     "influx": "^5.5.2",
     "winston": "^3.3.3"
   },

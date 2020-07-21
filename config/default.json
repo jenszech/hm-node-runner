@@ -12,12 +12,20 @@
       "port": 80,
       "pollingIntervall": 60
     },
-    "influx": {
-      "host": "<INSERT YOUR IP>",
-      "database": "smartdb",
-      "measurement": "homematic"
-    },
-    "exportValues": [
-    ]
+    "jobs": {
+      "influxExport": {
+        "host": "<INSERT YOUR IP>",
+        "database": "smartdb",
+        "measurement": "homematic",
+        "exportValues": [
+        ]
+      },
+      "km200Import": {
+        "host": "<INSERT YOUR IP>",
+        "port": 80,
+        "key": "<INSERT YOUR KEY>",
+        "pollingIntervall": 300
+      }
+    }
   }
 }

@@ -4,11 +4,11 @@ import { logger } from '../logger';
 
 const myConfig = config.get('hm-node-runner');
 const influx = new InfluxDB({
-  host: myConfig.influx.host,
-  database: myConfig.influx.database,
+  host: myConfig.jobs.influxExport.host,
+  database: myConfig.jobs.influxExport.database,
   schema: [
     {
-      measurement: myConfig.influx.measurement,
+      measurement: myConfig.jobs.influxExport.measurement,
       fields: {
         value: FieldType.FLOAT,
       },

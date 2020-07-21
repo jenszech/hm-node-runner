@@ -1,6 +1,12 @@
 'use strict';
-import { exportValues } from './influx/InfluxExporter';
-import { getCurrentStates, getDeviceList } from './ccu/ccuApi';
+import { exportValues } from './jobs/InfluxExporter';
+import {
+  getCurrentStates,
+  getDeviceList,
+  getCurrentVariables,
+  setValuesList,
+} from './utils/ccuApi';
+import { getKm200Values, km200Statistic } from './jobs/km200Importer';
 import { Status } from './healthcheck/Status';
 
 import pJson from '../package.json';
@@ -20,7 +26,14 @@ initStatusApp(status);
 // At first collect all devices and delay state polling
 logger.info('Collect DeviceList from CCU');
 getDeviceList();
+getCurrentVariables().then((sysMgr) => {
+  status.variableStats = sysMgr.getStatistic();
+});
+
+// Start polling
 setTimeout(startPollingIntervall, 5000);
+
+importKm200Values();
 
 logger.info('Startup finished');
 
@@ -29,6 +42,7 @@ function startPollingIntervall() {
   logger.info('Start intervall polling of current values');
   updateCurrentStates();
   setInterval(() => updateCurrentStates(), myConfig.CCU.pollingIntervall * 1000);
+  setInterval(() => importKm200Values(), myConfig.jobs.km200Import.pollingIntervall * 1000);
 }
 
 function updateCurrentStates() {
@@ -39,4 +53,17 @@ function updateCurrentStates() {
     exportValues(devMgr);
   });
 }
+
+function importKm200Values() {
+  logger.debug('start updating km200 values');
+  getKm200Values()
+    .then((valueMap) => {
+      setValuesList(valueMap);
+      logger.debug('... Current KM200 Values: ' + km200Statistic.variableCount);
+    })
+    .catch((error) => {
+      logger.error('ERROR:', error);
+    });
+}
+
 // -----------------------------------------------------------------------------

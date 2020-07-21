@@ -1,5 +1,5 @@
 import { DeviceManager, DataType, ValueType, Channel, DataPoint } from 'homematic-js-xmlapi';
-import { postToInflux } from './InfluxConnector';
+import { postToInflux } from '../utils/InfluxConnector';
 
 import { logger } from '../logger';
 
@@ -7,13 +7,13 @@ const config = require('config');
 const myConfig = config.get('hm-node-runner');
 
 export function exportValues(devMgr: DeviceManager) {
-  if (myConfig.has('exportValues')) {
+  if (myConfig.jobs.influxExport.has('exportValues')) {
     exportAllValuesFromConfig(devMgr);
   }
 }
 
 function exportAllValuesFromConfig(devMgr: DeviceManager) {
-  for (const measure of myConfig.exportValues) {
+  for (const measure of myConfig.jobs.influxExport.exportValues) {
     const channel = devMgr.getChannelByName(measure.name);
     if (channel) {
       export2InfluxByType(channel, getType(measure.data), measure);
