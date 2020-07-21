@@ -1,6 +1,6 @@
 {
     "name": "hm-node-runner",
-    "version": "0.5.0",
+    "version": "0.5.2",
     "description": "A homematic nodejs script runner",
     "author": {
         "name": "Jens Zech",
