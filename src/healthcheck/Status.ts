@@ -16,6 +16,8 @@ export class Status {
       StartTime: this.serviceStart,
       version: pJson.version + ' (' + myConfig.mainSetting.env + ')',
       CCU: {
+        Host: myConfig.CCU.host,
+        PollingIntervall: myConfig.CCU.pollingIntervall,
         Device: {
           LastUpdate: {
             Updated: this.deviceStats.lastUpdateCount,
@@ -34,6 +36,8 @@ export class Status {
         },
       },
       KM200: {
+        Host: myConfig.jobs.km200Import.host,
+        PollingIntervall: myConfig.jobs.km200Import.pollingIntervall,
         LastUpdate: {
           Updated: km200Statistic.lastUpdateCount,
           Timestamp: km200Statistic.lastUpdateTime,

@@ -1,16 +1,18 @@
 'use strict';
-import { exportValues } from './jobs/InfluxExporter';
+import { exportValues, exportVariables } from './jobs/InfluxExporter';
 import {
   getCurrentStates,
   getDeviceList,
   getCurrentVariables,
-  setValuesList,
+  setValuesList, initCcuApi, getSysMgr
 } from './utils/ccuApi';
 import { getKm200Values, km200Statistic } from './jobs/km200Importer';
 import { Status } from './healthcheck/Status';
 
 import pJson from '../package.json';
 import { logger } from './logger';
+import express from 'express';
+import { initStatusApp } from './healthcheck';
 
 const config = require('config');
 const myConfig = config.get('hm-node-runner');
@@ -20,8 +22,13 @@ logger.info(pJson.name + ' ' + pJson.version + ' (' + myConfig.mainSetting.env +
 const status = new Status();
 
 // Start Express App and interface
-import { initStatusApp } from './healthcheck';
-initStatusApp(status);
+const expressApp = express();
+initStatusApp(status, expressApp);
+initCcuApi(expressApp);
+// start the Express server
+expressApp.listen(myConfig.healthcheck.port, () => {
+  logger.info(`server started at http://localhost:${myConfig.healthcheck.port}`);
+});
 
 // At first collect all devices and delay state polling
 logger.info('Collect DeviceList from CCU');
@@ -60,6 +67,7 @@ function importKm200Values() {
     .then((valueMap) => {
       setValuesList(valueMap);
       logger.debug('... Current KM200 Values: ' + km200Statistic.variableCount);
+      exportVariables(getSysMgr());
     })
     .catch((error) => {
       logger.error('ERROR:', error);
