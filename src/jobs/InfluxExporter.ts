@@ -4,7 +4,8 @@ import {
   ValueType,
   Channel,
   DataPoint,
-  SystemVariableManager, SystemVariable,
+  SystemVariableManager,
+  SystemVariable,
 } from 'homematic-js-xmlapi';
 import { postToInflux } from '../utils/InfluxConnector';
 
@@ -73,7 +74,6 @@ function getDataPoint(channel: Channel, type: number): DataPoint | undefined {
   return undefined;
 }
 
-
 export function exportVariables(sysMgr: SystemVariableManager) {
   if (myConfig.jobs.influxExport.has('exportValues')) {
     exportAllVariablesFromConfig(sysMgr);
@@ -95,14 +95,14 @@ function exportAllVariablesFromConfig(sysMgr: SystemVariableManager) {
 
 function exportVariable2InfluxByType(variable: SystemVariable, measure: any) {
   // logger.debug(type + '@' + area + ' -> ' + name +': ' + value);
-    if (variable?.valueType === ValueType.Number) {
-      const value = variable.value as number;
-      postToInflux(measure.dataName, measure.area, variable?.name, value);
-    } else if (variable?.valueType === ValueType.Bool) {
-      const value = (variable.value as boolean) ? 1 : 0;
-      postToInflux(measure.dataName, measure.area, variable?.name, value);
-    } else if (variable?.valueType === ValueType.List) {
-      const value = variable.value as number;
-      postToInflux(measure.dataName, measure.area, variable?.name, value);
-    }
+  if (variable?.valueType === ValueType.Number) {
+    const value = variable.value as number;
+    postToInflux(measure.dataName, measure.area, variable?.name, value);
+  } else if (variable?.valueType === ValueType.Bool) {
+    const value = (variable.value as boolean) ? 1 : 0;
+    postToInflux(measure.dataName, measure.area, variable?.name, value);
+  } else if (variable?.valueType === ValueType.List) {
+    const value = variable.value as number;
+    postToInflux(measure.dataName, measure.area, variable?.name, value);
+  }
 }

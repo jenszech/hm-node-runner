@@ -4,7 +4,9 @@ import {
   getCurrentStates,
   getDeviceList,
   getCurrentVariables,
-  setValuesList, initCcuApi, getSysMgr
+  setValuesList,
+  initCcuApi,
+  getSysMgr,
 } from './utils/ccuApi';
 import { getKm200Values, km200Statistic } from './jobs/km200Importer';
 import { Status } from './healthcheck/Status';

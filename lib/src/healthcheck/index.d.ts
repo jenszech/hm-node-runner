@@ -1,2 +1,3 @@
 import { Status } from './Status';
-export declare function initStatusApp(status: Status): void;
+import * as core from 'express-serve-static-core';
+export declare function initStatusApp(status: Status, statusApp: core.Express): void;

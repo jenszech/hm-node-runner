@@ -18,11 +18,11 @@ export function initCcuApi(expressApp: core.Express) {
   });
 }
 
-export function getSysMgr() : SystemVariableManager {
+export function getSysMgr(): SystemVariableManager {
   return sysMgr;
 }
 
-function getJson():object {
+function getJson(): object {
   const variable = [];
   const obj = sysMgr.getVariablesRaw();
   for (const sysVar of obj.values()) {
