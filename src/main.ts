@@ -97,7 +97,7 @@ function levelUpdate(level: LevelData) {
 function initLeveljet(): LevelJetConnector {
   const conf = myConfig.jobs.LevelJetImport;
   const levelCon = new LevelJetConnector(conf.serialInterface);
-  levelCon.setExport(conf.enableFileExport === 'true', conf.exportFile, conf.exportIntervall);
+  levelCon.setExport(conf.enableFileExport, conf.exportFile, conf.exportIntervall);
   return levelCon;
 }
 // -----------------------------------------------------------------------------

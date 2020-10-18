@@ -38,7 +38,6 @@ export class LevelJetConnector {
   }
 
   private levelUpdateHandler(level: LevelData) {
-    logger.info('levelUpdateHandler: ' + this.enableFileExport);
     if (this.enableFileExport) {
       this.fileExporter.exportLevel(level);
     }
