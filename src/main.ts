@@ -89,7 +89,6 @@ function importKm200Values() {
 }
 
 function levelUpdate(level: LevelData) {
-  logger.info('Level Update 2');
   setValue(myConfig.jobs.LevelJetImport.name, level.fheight);
   const measure = getMeasureFromConfig(myConfig.jobs.LevelJetImport.name);
   exportVariable(measure, getSysMgr());
