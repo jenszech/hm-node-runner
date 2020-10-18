@@ -20,6 +20,7 @@ export class FileExporter {
 
   public exportLevel(level: LevelData) {
     if (FileExporter.isTimeToExport(level, this.exportedLevel, this.exportInterval)) {
+      logger.info('Time to Export to: ' + this.file);
       this.exportedLevel.copy(level);
       this.writeLog(this.exportedLevel.toLogString());
       logger.info('Exported');
