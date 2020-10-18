@@ -2,6 +2,7 @@
 import { DeviceStatistic, VariableStatistic } from 'homematic-js-xmlapi';
 import { km200Statistic } from '../jobs/km200Importer';
 import pJson from '../../package.json';
+import { levelJetStatistic } from '../leveljet/leveljetConnector';
 const config = require('config');
 const myConfig = config.get('hm-node-runner');
 
@@ -43,6 +44,19 @@ export class Status {
           Timestamp: km200Statistic.lastUpdateTime,
         },
         Variables: km200Statistic.variableCount,
+      },
+      LevelJet: {
+        Interface: myConfig.jobs.LevelJetImport.serialInterface,
+        Export: {
+          Enabled: myConfig.jobs.LevelJetImport.enableFileExport,
+          File: myConfig.jobs.LevelJetImport.exportFile,
+          Interval: myConfig.jobs.LevelJetImport.exportIntervall,
+        },
+        LastUpdate: {
+          Updated: levelJetStatistic.lastUpdateTime,
+          Failure: levelJetStatistic.failureRate,
+          Fuel: levelJetStatistic.fuel,
+        },
       },
     };
   }

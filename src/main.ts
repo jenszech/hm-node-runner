@@ -11,7 +11,8 @@ import {
   getCurrentVariables,
   setValuesList,
   initCcuApi,
-  getSysMgr, setValue,
+  getSysMgr,
+  setValue,
 } from './utils/ccuApi';
 import { getKm200Values, km200Statistic } from './jobs/km200Importer';
 import { Status } from './healthcheck/Status';
@@ -91,13 +92,13 @@ function levelUpdate(level: LevelData) {
   logger.info('Level Update 2');
   setValue(myConfig.jobs.LevelJetImport.name, level.fheight);
   const measure = getMeasureFromConfig(myConfig.jobs.LevelJetImport.name);
-  exportVariable(measure, getSysMgr())
+  exportVariable(measure, getSysMgr());
 }
 
 function initLeveljet(): LevelJetConnector {
   const conf = myConfig.jobs.LevelJetImport;
   const levelCon = new LevelJetConnector(conf.serialInterface);
-  levelCon.setExport((conf.enableFileExport === 'true'), conf.exportFile, conf.exportIntervall);
+  levelCon.setExport(conf.enableFileExport === 'true', conf.exportFile, conf.exportIntervall);
   return levelCon;
 }
 // -----------------------------------------------------------------------------

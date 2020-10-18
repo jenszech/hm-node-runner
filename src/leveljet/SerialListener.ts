@@ -2,16 +2,16 @@ import { logger } from '../logger';
 import { LevelData } from './LevelJetModel';
 
 const SerialPort = require('serialport');
-const InterByteTimeout = require('@serialport/parser-inter-byte-timeout')
+const InterByteTimeout = require('@serialport/parser-inter-byte-timeout');
 const { crc16 } = require('easy-crc');
 
 declare type serialEventHandler = (level: LevelData) => void;
-const MAX_COUNT_LENGTH = 60*60*24;
+const MAX_COUNT_LENGTH = 60 * 60 * 24;
 
 export class SerialListener {
   private serialInterface: string;
   private port: any = null;
-  private parser: any = new InterByteTimeout({interval: 30});
+  private parser: any = new InterByteTimeout({ interval: 30 });
   private countFailure = 0;
   private countSuccess = 0;
   public level: LevelData = new LevelData(null);
@@ -31,16 +31,16 @@ export class SerialListener {
     });
 
     this.port.on('open', () => {
-      logger.info('Connected to serial interface: '+this.serialInterface);
+      logger.info('Connected to serial interface: ' + this.serialInterface);
     });
 
     this.port.on('close', () => {
-      logger.info('Close serial interface: '+this.serialInterface);
+      logger.info('Close serial interface: ' + this.serialInterface);
     });
 
     this.port.on('error', (err: any) => {
       logger.error(err);
-    })
+    });
   }
 
   public startListener() {
@@ -50,30 +50,34 @@ export class SerialListener {
   public stopListener() {
     this.port.close((err: any) => {
       logger.error(err);
-    })
-  }
-
-  private initiatePort(): any {
-    return new SerialPort(this.serialInterface, {
-      baudRate: 19200,
-      dataBits: 8,
-      parity: 'none',
-      stopBits: 1,
-      autoOpen: false,
-    }, (err: any) => {
-      if (err) {
-        return logger.error(err);
-      }
     });
   }
 
+  private initiatePort(): any {
+    return new SerialPort(
+      this.serialInterface,
+      {
+        baudRate: 19200,
+        dataBits: 8,
+        parity: 'none',
+        stopBits: 1,
+        autoOpen: false,
+      },
+      (err: any) => {
+        if (err) {
+          return logger.error(err);
+        }
+      },
+    );
+  }
+
   private calcCheckSum(data: any): string {
-    return crc16('BUYPASS', data.slice(0,10)).toString(16);
+    return crc16('BUYPASS', data.slice(0, 10)).toString(16);
   }
 
   private isValidDataPackage(data: any): boolean {
     const recCrc = data[11] * 256 + data[10];
-    return(recCrc.toString(16) === this.calcCheckSum(data));
+    return recCrc.toString(16) === this.calcCheckSum(data);
   }
 
   private parseSerialDataBuffer(data: any): boolean {
@@ -82,26 +86,25 @@ export class SerialListener {
       this.countSuccess++;
       this.level.update(data);
       // logger.debug('Parser Distanz: ' + this.level.toString());
-      return true
+      return true;
     } else {
       this.countFailure++;
       // logger.debug('Checksum failure - ' + this.calcErrorRate().toFixed(2) + '%');
-      return false
+      return false;
     }
   }
 
   private resetCounter() {
-    if ((this.countFailure+this.countSuccess) > MAX_COUNT_LENGTH) {
+    if (this.countFailure + this.countSuccess > MAX_COUNT_LENGTH) {
       this.countSuccess = 0;
       this.countFailure = 0;
     }
   }
 
-  private calcErrorRate(): number {
+  public calcErrorRate(): number {
     return (this.countFailure / (this.countSuccess + this.countFailure)) * 100.0;
   }
 }
-
 
 /*
 Beschreibung:

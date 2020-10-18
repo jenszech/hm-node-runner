@@ -74,10 +74,10 @@ export function setValuesList(valueMap: Map<string, number | boolean>) {
 }
 
 export function setValue(valuename: string, value: number | boolean) {
-    const sysvar = sysMgr.getVariableByName(valuename);
-    if (sysvar) {
-      setValueToCCU(sysvar.iseId, value);
-    }
+  const sysvar = sysMgr.getVariableByName(valuename);
+  if (sysvar) {
+    setValueToCCU(sysvar.iseId, value);
+  }
 }
 
 function setValueToCCU(id: string, value: number | boolean) {

@@ -6,12 +6,12 @@ export enum ExportInterval {
   every_second = 1,
   every_minute,
   hourly,
-  daily
+  daily,
 }
 
 export class FileExporter {
   public file = '';
-  public exportInterval  = ExportInterval.every_minute;
+  public exportInterval = ExportInterval.every_minute;
   private exportedLevel: LevelData = new LevelData(null);
 
   constructor(logFile: string) {
@@ -28,29 +28,27 @@ export class FileExporter {
 
   private writeLog(data: string) {
     try {
-      fs.appendFileSync(this.file, data+'\n');
-    } catch(err) {
+      fs.appendFileSync(this.file, data + '\n');
+    } catch (err) {
       logger.error('Fehler beim Dateischreiben: ', err);
     }
   }
 
-  public static isTimeToExport(lvl1: LevelData,
-                               lvl2: LevelData,
-                               interval: ExportInterval) : boolean {
+  public static isTimeToExport(
+    lvl1: LevelData,
+    lvl2: LevelData,
+    interval: ExportInterval,
+  ): boolean {
     switch (interval) {
       case ExportInterval.every_second:
         // tslint:disable-next-line:triple-equals
-        return (lvl1.lastUpdateTime.getSeconds() !==
-          lvl2.lastUpdateTime.getSeconds());
+        return lvl1.lastUpdateTime.getSeconds() !== lvl2.lastUpdateTime.getSeconds();
       case ExportInterval.every_minute:
-        return (lvl1.lastUpdateTime.getMinutes() !==
-          lvl2.lastUpdateTime.getMinutes());
+        return lvl1.lastUpdateTime.getMinutes() !== lvl2.lastUpdateTime.getMinutes();
       case ExportInterval.hourly:
-        return (lvl1.lastUpdateTime.getHours() !==
-          lvl2.lastUpdateTime.getHours());
+        return lvl1.lastUpdateTime.getHours() !== lvl2.lastUpdateTime.getHours();
       case ExportInterval.daily:
-        return (lvl1.lastUpdateTime.getDay() !==
-          lvl2.lastUpdateTime.getDay());
+        return lvl1.lastUpdateTime.getDay() !== lvl2.lastUpdateTime.getDay();
     }
     return false;
   }

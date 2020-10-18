@@ -80,7 +80,7 @@ export function exportVariables(sysMgr: SystemVariableManager) {
   }
 }
 
-export function exportVariable(measure: any, sysMgr: SystemVariableManager){
+export function exportVariable(measure: any, sysMgr: SystemVariableManager) {
   const variable = sysMgr.getVariableByName(measure.name);
   if (variable) {
     exportVariable2InfluxByType(variable, measure.dataName, measure.area);

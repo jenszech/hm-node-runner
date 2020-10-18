@@ -14,7 +14,7 @@ export class LevelData {
   public crc = 0;
   public lastUpdateTime: Date = new Date();
 
-  public update(data: Buffer|LevelData) {
+  public update(data: Buffer | LevelData) {
     if (Buffer.isBuffer(data)) {
       this.updateByBuffer(data);
     } else {
@@ -43,31 +43,43 @@ export class LevelData {
   }
 
   public toString() {
-    return ''
-      + this.device + ','
-      + this.pct + ','
-      + this.distanz + ','
-      + this.fheight + ','
-      + this.fvol + ','
-      + this.crc;
+    return (
+      '' +
+      this.device +
+      ',' +
+      this.pct +
+      ',' +
+      this.distanz +
+      ',' +
+      this.fheight +
+      ',' +
+      this.fvol +
+      ',' +
+      this.crc
+    );
   }
 
   public toLogString() {
-    return ''
-      + this.getNiceLastUpdatedTime() + ','
-      + this.pct + ','
-      + this.distanz + ','
-      + this.fheight;
+    return (
+      '' + this.getNiceLastUpdatedTime() + ',' + this.pct + ',' + this.distanz + ',' + this.fheight
+    );
   }
 
   private getNiceLastUpdatedTime(): string {
     const optDate: Intl.DateTimeFormatOptions = {
-      day: 'numeric', month: 'numeric', year: 'numeric'
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
     };
     const optTime: Intl.DateTimeFormatOptions = {
-      hour: '2-digit', minute: '2-digit', second: '2-digit'
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
     };
-    return this.lastUpdateTime.toLocaleDateString('de-DE', optDate) + ',' +
-      this.lastUpdateTime.toLocaleTimeString('de-DE', optTime);
+    return (
+      this.lastUpdateTime.toLocaleDateString('de-DE', optDate) +
+      ',' +
+      this.lastUpdateTime.toLocaleTimeString('de-DE', optTime)
+    );
   }
 }

@@ -2,13 +2,18 @@ import { ExportInterval, FileExporter } from './FileExporter';
 import { SerialListener } from './SerialListener';
 import { LevelData } from './LevelJetModel';
 
-
 declare type levelUpdateHandler = (level: LevelData) => void;
+
+export const levelJetStatistic = {
+  lastUpdateTime: new Date(),
+  fuel: 0,
+  failureRate: 0,
+};
 
 export class LevelJetConnector {
   private fileExporter: FileExporter;
   private serial: SerialListener;
-  private levelUpdateCallback: levelUpdateHandler|null = null;
+  private levelUpdateCallback: levelUpdateHandler | null = null;
   private enableFileExport: boolean = false;
   public level: LevelData = new LevelData(null);
 
@@ -36,16 +41,19 @@ export class LevelJetConnector {
       this.fileExporter.exportLevel(level);
     }
     if (this.levelUpdateCallback) {
-      if ((FileExporter.isTimeToExport(level, this.level, ExportInterval.every_minute)) ||
-        (level.distanz !== this.level.distanz)){
+      if (
+        FileExporter.isTimeToExport(level, this.level, ExportInterval.every_minute) ||
+        level.distanz !== this.level.distanz
+      ) {
         this.levelUpdateCallback(level);
       }
     }
     this.level.copy(level);
+    levelJetStatistic.fuel = this.level.fheight;
+    levelJetStatistic.lastUpdateTime = this.level.lastUpdateTime;
+    levelJetStatistic.failureRate = this.serial.calcErrorRate();
   }
 }
 
 export { ExportInterval } from './FileExporter';
 export { LevelData } from './LevelJetModel';
-
-
