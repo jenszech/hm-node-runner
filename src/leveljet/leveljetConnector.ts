@@ -1,6 +1,7 @@
 import { ExportInterval, FileExporter } from './FileExporter';
 import { SerialListener } from './SerialListener';
 import { LevelData } from './LevelJetModel';
+import { logger } from '../logger';
 
 declare type levelUpdateHandler = (level: LevelData) => void;
 
@@ -37,6 +38,7 @@ export class LevelJetConnector {
   }
 
   private levelUpdateHandler(level: LevelData) {
+    logger.info('levelUpdateHandler: ' + this.enableFileExport);
     if (this.enableFileExport) {
       this.fileExporter.exportLevel(level);
     }
