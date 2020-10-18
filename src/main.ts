@@ -92,7 +92,6 @@ function levelUpdate(level: LevelData) {
   setValue(myConfig.jobs.LevelJetImport.name, level.fheight);
   const measure = getMeasureFromConfig(myConfig.jobs.LevelJetImport.name);
   if (measure) {
-    logger.info('Measure ' + measure.name);
     exportVariable(measure, getSysMgr());
   } else {
     logger.warn('NOT Found ---> ' + myConfig.jobs.LevelJetImport.name);
