@@ -80,29 +80,41 @@ export function exportVariables(sysMgr: SystemVariableManager) {
   }
 }
 
+export function exportVariable(measure: any, sysMgr: SystemVariableManager){
+  const variable = sysMgr.getVariableByName(measure.name);
+  if (variable) {
+    exportVariable2InfluxByType(variable, measure.dataName, measure.area);
+  } else {
+    logger.warn('NOT Found ---> ' + name);
+  }
+}
+
 function exportAllVariablesFromConfig(sysMgr: SystemVariableManager) {
   for (const measure of myConfig.jobs.influxExport.exportValues) {
     if (measure.typ === 'SYSVAR') {
-      const variable = sysMgr.getVariableByName(measure.name);
-      if (variable) {
-        exportVariable2InfluxByType(variable, measure);
-      } else {
-        logger.warn('NOT Found ---> ' + measure.name);
-      }
+      exportVariable(measure, sysMgr);
     }
   }
 }
 
-function exportVariable2InfluxByType(variable: SystemVariable, measure: any) {
+function exportVariable2InfluxByType(variable: SystemVariable, name: string, area: string) {
   // logger.debug(type + '@' + area + ' -> ' + name +': ' + value);
   if (variable?.valueType === ValueType.Number) {
     const value = variable.value as number;
-    postToInflux(measure.dataName, measure.area, variable?.name, value);
+    postToInflux(name, area, variable?.name, value);
   } else if (variable?.valueType === ValueType.Bool) {
     const value = (variable.value as boolean) ? 1 : 0;
-    postToInflux(measure.dataName, measure.area, variable?.name, value);
+    postToInflux(name, area, variable?.name, value);
   } else if (variable?.valueType === ValueType.List) {
     const value = variable.value as number;
-    postToInflux(measure.dataName, measure.area, variable?.name, value);
+    postToInflux(name, area, variable?.name, value);
+  }
+}
+
+export function getMeasureFromConfig(name: string): any {
+  for (const measure of myConfig.jobs.influxExport.exportValues) {
+    if (measure.name === name) {
+      return measure;
+    }
   }
 }

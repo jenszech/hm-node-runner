@@ -69,14 +69,18 @@ export function getCurrentStates(): Promise<DeviceManager> {
 
 export function setValuesList(valueMap: Map<string, number | boolean>) {
   for (const value of valueMap.entries()) {
-    const sysvar = sysMgr.getVariableByName(value[0]);
-    if (sysvar) {
-      setValue(sysvar.iseId, value[1]);
-    }
+    setValue(value[0], value[1]);
   }
 }
 
-function setValue(id: string, value: number | boolean) {
+export function setValue(valuename: string, value: number | boolean) {
+    const sysvar = sysMgr.getVariableByName(valuename);
+    if (sysvar) {
+      setValueToCCU(sysvar.iseId, value);
+    }
+}
+
+function setValueToCCU(id: string, value: number | boolean) {
   xmlApi.setState(id, convertValue(value)).catch((error) => {
     logger.error('ERROR:', error);
   });

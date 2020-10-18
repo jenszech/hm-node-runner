@@ -117,3 +117,4 @@ dist
 .idea/
 config/dev.json
 package-lock.json
+LevelExport.csv

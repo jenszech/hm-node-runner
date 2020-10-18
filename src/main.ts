@@ -1,12 +1,17 @@
 'use strict';
-import { exportValues, exportVariables } from './jobs/InfluxExporter';
+import {
+  exportValues,
+  exportVariables,
+  exportVariable,
+  getMeasureFromConfig,
+} from './jobs/InfluxExporter';
 import {
   getCurrentStates,
   getDeviceList,
   getCurrentVariables,
   setValuesList,
   initCcuApi,
-  getSysMgr,
+  getSysMgr, setValue,
 } from './utils/ccuApi';
 import { getKm200Values, km200Statistic } from './jobs/km200Importer';
 import { Status } from './healthcheck/Status';
@@ -15,6 +20,7 @@ import pJson from '../package.json';
 import { logger } from './logger';
 import express from 'express';
 import { initStatusApp } from './healthcheck';
+import { LevelJetConnector, LevelData } from './leveljet/leveljetConnector';
 
 const config = require('config');
 const myConfig = config.get('hm-node-runner');
@@ -39,10 +45,15 @@ getCurrentVariables().then((sysMgr) => {
   status.variableStats = sysMgr.getStatistic();
 });
 
+// Initial KM200 Import
+importKm200Values();
+
+// Start LevelJet Serial Interface
+const levelJet = initLeveljet();
+levelJet.setLevelUpdateCallback(levelUpdate.bind(this));
+
 // Start polling
 setTimeout(startPollingIntervall, 5000);
-
-importKm200Values();
 
 logger.info('Startup finished');
 
@@ -76,4 +87,17 @@ function importKm200Values() {
     });
 }
 
+function levelUpdate(level: LevelData) {
+  logger.info('Level Update 2');
+  setValue(myConfig.jobs.LevelJetImport.name, level.fheight);
+  const measure = getMeasureFromConfig(myConfig.jobs.LevelJetImport.name);
+  exportVariable(measure, getSysMgr())
+}
+
+function initLeveljet(): LevelJetConnector {
+  const conf = myConfig.jobs.LevelJetImport;
+  const levelCon = new LevelJetConnector(conf.serialInterface);
+  levelCon.setExport((conf.enableFileExport === 'true'), conf.exportFile, conf.exportIntervall);
+  return levelCon;
+}
 // -----------------------------------------------------------------------------
