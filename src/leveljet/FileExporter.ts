@@ -19,8 +19,9 @@ export class FileExporter {
   }
 
   public exportLevel(level: LevelData) {
+    logger.info('Check Export: ' + this.exportInterval);
     if (FileExporter.isTimeToExport(level, this.exportedLevel, this.exportInterval)) {
-      logger.info('Time to Export to: ' + this.file);
+      logger.info('eTime to Export to: ' + this.file);
       this.exportedLevel.copy(level);
       this.writeLog(this.exportedLevel.toLogString());
       logger.info('Exported');
