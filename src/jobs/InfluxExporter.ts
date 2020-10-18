@@ -122,4 +122,5 @@ export function getMeasureFromConfig(name: string): any {
       return measure;
     }
   }
+  return null;
 }
