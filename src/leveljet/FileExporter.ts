@@ -22,7 +22,6 @@ export class FileExporter {
     if (FileExporter.isTimeToExport(level, this.exportedLevel, this.exportInterval)) {
       this.exportedLevel.copy(level);
       this.writeLog(this.exportedLevel.toLogString());
-      logger.info('Exported');
     }
   }
 
