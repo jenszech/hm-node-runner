@@ -49,16 +49,14 @@ getCurrentVariables().then((sysMgr) => {
 // Initial KM200 Import
 importKm200Values();
 
-// Start LevelJet Serial Interface
+// Init Polling
 const levelJet = initLeveljet();
 levelJet.setLevelUpdateCallback(levelUpdate.bind(this));
-
-// Start polling
 setTimeout(startPollingIntervall, 5000);
 
 logger.info('Startup finished');
 
-// -----------------------------------------------------------------------------
+// -- Init Handler -----------------------------------------------------------------
 function startPollingIntervall() {
   logger.info('Start intervall polling of current values');
   updateCurrentStates();
@@ -66,6 +64,15 @@ function startPollingIntervall() {
   setInterval(() => importKm200Values(), myConfig.jobs.km200Import.pollingIntervall * 1000);
 }
 
+function initLeveljet(): LevelJetConnector {
+  const conf = myConfig.jobs.LevelJetImport;
+  const levelCon = new LevelJetConnector(conf.serialInterface);
+  levelCon.setExport(conf.enableFileExport, conf.exportFile, conf.exportIntervall);
+  return levelCon;
+}
+
+// -- Update Handler -------------------------------------------------------------
+// Homematic value upadte and Influx Export
 function updateCurrentStates() {
   logger.debug('start updating current states');
   getCurrentStates().then((devMgr) => {
@@ -75,6 +82,7 @@ function updateCurrentStates() {
   });
 }
 
+// KM200 Import and export to homematic
 function importKm200Values() {
   logger.debug('start updating km200 values');
   getKm200Values()
@@ -88,7 +96,9 @@ function importKm200Values() {
     });
 }
 
+// Leveljet update
 function levelUpdate(level: LevelData) {
+  logger.info('levelUpdate 2: ' + level.fheight);
   setValue(myConfig.jobs.LevelJetImport.name, level.fheight);
   const measure = getMeasureFromConfig(myConfig.jobs.LevelJetImport.name);
   if (measure) {
@@ -99,10 +109,4 @@ function levelUpdate(level: LevelData) {
   }
 }
 
-function initLeveljet(): LevelJetConnector {
-  const conf = myConfig.jobs.LevelJetImport;
-  const levelCon = new LevelJetConnector(conf.serialInterface);
-  levelCon.setExport(conf.enableFileExport, conf.exportFile, conf.exportIntervall);
-  return levelCon;
-}
 // -----------------------------------------------------------------------------
