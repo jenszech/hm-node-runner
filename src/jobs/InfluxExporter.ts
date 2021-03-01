@@ -74,17 +74,21 @@ function getDataPoint(channel: Channel, type: number): DataPoint | undefined {
   return undefined;
 }
 
-export function exportVariables(sysMgr: SystemVariableManager) {
+export function exportAllVariables(sysMgr: SystemVariableManager) {
   if (myConfig.jobs.influxExport.has('exportValues')) {
     exportAllVariablesFromConfig(sysMgr);
   }
 }
 
-export function exportVariable(measure: any, sysMgr: SystemVariableManager) {
+export function exportMeasurement(measure: any, sysMgr: SystemVariableManager) {
   const variable = sysMgr.getVariableByName(measure.name);
-  if (variable) {
+  exportVariable(measure, variable);
+}
+
+export function exportVariable(measure: any, sysVar: SystemVariable | null) {
+  if (sysVar) {
     // logger.info(measure.dataName + '@' + measure.area + ' -> ' + variable.value);
-    exportVariable2InfluxByType(variable, measure.dataName, measure.area);
+    exportVariable2InfluxByType(sysVar, measure.dataName, measure.area);
   } else {
     logger.warn('NOT Found ---> ' + measure.name);
   }
@@ -93,7 +97,7 @@ export function exportVariable(measure: any, sysMgr: SystemVariableManager) {
 function exportAllVariablesFromConfig(sysMgr: SystemVariableManager) {
   for (const measure of myConfig.jobs.influxExport.exportValues) {
     if (measure.typ === 'SYSVAR') {
-      exportVariable(measure, sysMgr);
+      exportMeasurement(measure, sysMgr);
     }
   }
 }

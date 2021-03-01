@@ -75,6 +75,9 @@ export function setValuesList(valueMap: Map<string, number | boolean>) {
 
 export function setValue(valuename: string, value: number | boolean) {
   const sysvar = sysMgr.getVariableByName(valuename);
+  setValueToSysVar(sysvar, value);
+}
+export function setValueToSysVar(sysvar: SystemVariable | null, value: number | boolean) {
   if (sysvar) {
     setValueToCCU(sysvar.iseId, value);
   }

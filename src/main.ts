@@ -1,7 +1,8 @@
 'use strict';
 import {
   exportValues,
-  exportVariables,
+  exportAllVariables,
+  exportMeasurement,
   exportVariable,
   getMeasureFromConfig,
 } from './jobs/InfluxExporter';
@@ -13,6 +14,7 @@ import {
   initCcuApi,
   getSysMgr,
   setValue,
+  setValueToSysVar,
 } from './utils/ccuApi';
 import { getKm200Values, km200Statistic } from './jobs/km200Importer';
 import { Status } from './healthcheck/Status';
@@ -89,7 +91,7 @@ function importKm200Values() {
     .then((valueMap) => {
       setValuesList(valueMap);
       logger.debug('... Current KM200 Values: ' + km200Statistic.variableCount);
-      exportVariables(getSysMgr());
+      exportAllVariables(getSysMgr());
     })
     .catch((error) => {
       logger.error('ERROR:', error);
@@ -98,15 +100,19 @@ function importKm200Values() {
 
 // Leveljet update
 function levelUpdate(level: LevelData) {
-  logger.info('levelUpdate 2: ' + level.fheight);
-  setValue(myConfig.jobs.LevelJetImport.name, level.fheight);
+  const sysVar = getSysMgr().getVariableByName(myConfig.jobs.LevelJetImport.name);
   const measure = getMeasureFromConfig(myConfig.jobs.LevelJetImport.name);
+  logger.info('levelUpdate 1: ' + level.fheight + ' -> ' + sysVar?.value);
+  setValueToSysVar(sysVar, level.fheight);
+  logger.info('levelUpdate 2: ' + level.fheight + ' -> ' + sysVar?.value);
   if (measure) {
     logger.info('Export LevelData');
-    exportVariable(measure, getSysMgr());
+    exportVariable(measure, sysVar);
   } else {
     logger.warn('NOT Found ---> ' + myConfig.jobs.LevelJetImport.name);
   }
+  const sysVar2 = getSysMgr().getVariableByName(myConfig.jobs.LevelJetImport.name);
+  logger.info('levelUpdate 3: ' + level.fheight + ' -> ' + sysVar2?.value);
 }
 
 // -----------------------------------------------------------------------------
