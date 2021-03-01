@@ -2,6 +2,7 @@ import { LevelData } from './LevelJetModel';
 declare type levelUpdateHandler = (level: LevelData) => void;
 export declare const levelJetStatistic: {
   lastUpdateTime: Date;
+  lastChangeTime: Date;
   fuel: number;
   failureRate: number;
 };

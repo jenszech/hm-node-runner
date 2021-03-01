@@ -54,6 +54,7 @@ export class Status {
         },
         LastUpdate: {
           Updated: levelJetStatistic.lastUpdateTime,
+          Changed: levelJetStatistic.lastChangeTime,
           Failure: levelJetStatistic.failureRate,
           Fuel: levelJetStatistic.fuel,
         },

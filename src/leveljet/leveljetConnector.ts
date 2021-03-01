@@ -7,6 +7,7 @@ declare type levelUpdateHandler = (level: LevelData) => void;
 
 export const levelJetStatistic = {
   lastUpdateTime: new Date(),
+  lastChangeTime: new Date(),
   fuel: 0,
   failureRate: 0,
 };
@@ -47,6 +48,7 @@ export class LevelJetConnector {
         level.distanz !== this.level.distanz
       ) {
         this.levelUpdateCallback(level);
+        levelJetStatistic.lastChangeTime = new Date();
       }
     }
     this.level.copy(level);
