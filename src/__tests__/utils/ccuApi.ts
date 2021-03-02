@@ -1,5 +1,5 @@
 import { getCurrentVariables, getSysMgr, setValueToSysVar } from '../../utils/ccuApi';
-import { getMeasureFromConfig } from '../../jobs/InfluxExporter';
+import { getMeasureFromConfig } from '../../utils/InfluxExporter';
 import { logger } from '../../logger';
 import { SystemVariable } from 'homematic-js-xmlapi';
 

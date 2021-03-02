@@ -7,7 +7,7 @@ import {
   SystemVariableManager,
   SystemVariable,
 } from 'homematic-js-xmlapi';
-import { postToInflux } from '../utils/InfluxConnector';
+import { postToInflux } from './InfluxConnector';
 
 import { logger } from '../logger';
 

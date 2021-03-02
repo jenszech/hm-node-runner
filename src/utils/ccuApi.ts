@@ -1,6 +1,6 @@
 import { XmlApi, DeviceManager, SystemVariableManager, SystemVariable } from 'homematic-js-xmlapi';
 import { logger } from '../logger';
-import { Status } from '../healthcheck/Status';
+import { Status } from '../routes/healthcheck/Status';
 import * as core from 'express-serve-static-core';
 
 const config = require('config');
@@ -9,14 +9,6 @@ const myConfig = config.get('hm-node-runner');
 const devMgr = new DeviceManager();
 const sysMgr = new SystemVariableManager();
 const xmlApi = new XmlApi(myConfig.CCU.host, myConfig.CCU.port);
-
-// define a route handler for the default home page
-export function initCcuApi(expressApp: core.Express) {
-  // define a route handler for the default home page
-  expressApp.get('/data', (req, res) => {
-    res.send(getJson());
-  });
-}
 
 export function getSysMgr(): SystemVariableManager {
   return sysMgr;

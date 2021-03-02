@@ -1,8 +1,8 @@
 'use strict';
 import { DeviceStatistic, VariableStatistic } from 'homematic-js-xmlapi';
-import { km200Statistic } from '../jobs/km200Importer';
-import pJson from '../../package.json';
-import { levelJetStatistic } from '../leveljet/leveljetConnector';
+import { km200Statistic } from '../../utils/km200api';
+import pJson from '../../../package.json';
+import { levelJetStatistic } from '../../leveljet/leveljetConnector';
 const config = require('config');
 const myConfig = config.get('hm-node-runner');
 

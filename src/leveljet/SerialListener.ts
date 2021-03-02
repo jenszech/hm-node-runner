@@ -39,7 +39,7 @@ export class SerialListener {
     });
 
     this.port.on('error', (err: any) => {
-      logger.error(err);
+      logger.error('Error on opening serialport' + err.message);
     });
   }
 

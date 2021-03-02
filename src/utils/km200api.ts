@@ -1,12 +1,10 @@
 import { Km200 } from 'km200-api';
-
 import { logger } from '../logger';
-import { DeviceManager } from 'homematic-js-xmlapi';
 
 const config = require('config');
 const myConfig = config.get('hm-node-runner');
 
-const km200Importer = new Km200(
+const km200api = new Km200(
   myConfig.jobs.km200Import.host,
   myConfig.jobs.km200Import.port,
   myConfig.jobs.km200Import.key,
@@ -44,7 +42,7 @@ async function importAllValuesFromConfig(): Promise<Map<string, number | boolean
 }
 
 function importValue(api: string): Promise<any> {
-  return km200Importer
+  return km200api
     .getKM200(api)
     .then((data) => {
       return convertData(data.value, data.type);
