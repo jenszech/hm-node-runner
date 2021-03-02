@@ -47,7 +47,6 @@ export class LevelJetConnector {
         FileExporter.isTimeToExport(level, this.level, ExportInterval.every_minute) ||
         level.distanz !== this.level.distanz
       ) {
-        logger.info('levelUpdateHandler' + level.fheight);
         this.levelUpdateCallback(level);
         levelJetStatistic.lastChangeTime = new Date();
       }
