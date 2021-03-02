@@ -102,17 +102,13 @@ function importKm200Values() {
 function levelUpdate(level: LevelData) {
   const sysVar = getSysMgr().getVariableByName(myConfig.jobs.LevelJetImport.name);
   const measure = getMeasureFromConfig(myConfig.jobs.LevelJetImport.name);
-  logger.info('levelUpdate 1: ' + level.fheight + ' -> ' + sysVar?.value);
   setValueToSysVar(sysVar, level.fheight);
-  logger.info('levelUpdate 2: ' + level.fheight + ' -> ' + sysVar?.value);
   if (measure) {
-    logger.info('Export LevelData');
     exportVariable(measure, sysVar);
   } else {
     logger.warn('NOT Found ---> ' + myConfig.jobs.LevelJetImport.name);
   }
   const sysVar2 = getSysMgr().getVariableByName(myConfig.jobs.LevelJetImport.name);
-  logger.info('levelUpdate 3: ' + level.fheight + ' -> ' + sysVar2?.value);
 }
 
 // -----------------------------------------------------------------------------

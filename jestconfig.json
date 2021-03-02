@@ -8,5 +8,6 @@
   "collectCoverage": true,
   "automock": false,
   "setupFiles": [
+    "./setupJest.js"
   ]
 }

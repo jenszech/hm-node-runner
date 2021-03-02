@@ -79,6 +79,7 @@ export function setValue(valuename: string, value: number | boolean) {
 }
 export function setValueToSysVar(sysvar: SystemVariable | null, value: number | boolean) {
   if (sysvar) {
+    sysvar.value = value;
     setValueToCCU(sysvar.iseId, value);
   }
 }
