@@ -2,13 +2,9 @@
 import pJson from '../package.json';
 import { logger } from './logger';
 import express from 'express';
-import { exportAllVariables, exportVariable, getMeasureFromConfig } from './utils/InfluxExporter';
-import { setValuesList, getSysMgr, setValueToSysVar } from './utils/ccuApi';
 import { defineExpressRouteStatus } from './routes/healthcheck';
 import { defineExpressRouteCCUData } from './routes/ccuData';
 import { Status } from './routes/healthcheck/Status';
-import { getKm200Values, km200Statistic } from './utils/km200api';
-import { LevelJetConnector, LevelData } from './leveljet/leveljetConnector';
 import { CcuWorker } from './jobs/ccuWorker';
 import { Km200Worker } from './jobs/km200Worker';
 import { LeveljetWorker } from './jobs/leveljetWorker';

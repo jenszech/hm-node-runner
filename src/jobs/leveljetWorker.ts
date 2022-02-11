@@ -1,8 +1,7 @@
-import { setValuesList, getSysMgr, setValueToSysVar } from '../utils/ccuApi';
+import { getSysMgr, setValueToSysVar } from '../utils/ccuApi';
 import { logger } from '../logger';
-import { exportAllVariables, exportVariable, getMeasureFromConfig } from '../utils/InfluxExporter';
+import { exportVariable, getMeasureFromConfig } from '../utils/InfluxExporter';
 import { Status } from '../routes/healthcheck/Status';
-import { getKm200Values, km200Statistic } from '../utils/km200api';
 import { LevelData } from '../leveljet/LevelJetModel';
 import { LevelJetConnector } from '../leveljet/leveljetConnector';
 

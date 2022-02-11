@@ -1,12 +1,4 @@
-import {
-  getCurrentStates,
-  getDeviceList,
-  getCurrentVariables,
-  setValuesList,
-  getSysMgr,
-  setValue,
-  setValueToSysVar,
-} from '../utils/ccuApi';
+import { getCurrentStates, getDeviceList, getCurrentVariables } from '../utils/ccuApi';
 import { logger } from '../logger';
 import { exportValues } from '../utils/InfluxExporter';
 import { Status } from '../routes/healthcheck/Status';
