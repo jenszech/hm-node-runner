@@ -10,5 +10,6 @@ services:
     environment:
       - NODE_ENV=dev
     volumes:
-      - ./volumes/hm-node-runner:/home/node/app/config
+      - ./volumes/hm-node-runner/config:/home/node/app/config
+      - ./volumes/hm-node-runner/data:/home/node/app/data
     command: "npm start"
