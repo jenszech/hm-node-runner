@@ -120,5 +120,15 @@ npm version major|minor|patch
 npm publish
 ```
 
+## Use as Docker Image
+Copy config files to ./volumes/hm-node-runner
+
+```
+docker build -t homematic-node-runner .
+docker-compose up -d
+```
+
+
 ## License
 See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
+

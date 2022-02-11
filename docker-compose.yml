@@ -1,0 +1,14 @@
+version: "3.6"
+services:
+  node:
+    container_name: homematic-node-runner
+    image: "homematic-node-runner"
+    user: "node"
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=dev
+    volumes:
+      - ./volumes/hm-node-runner:/home/node/app/config
+    command: "npm start"
