@@ -37,7 +37,6 @@
     "homematic-js-xmlapi": "^0.8.1",
     "influx": "^5.9.3",
     "km200-api": "^0.2.3",
-    "node": "^17.4.0",
     "serialport": "^9.2.8",
     "winston": "^3.5.1"
   },

@@ -1,7 +1,8 @@
 # hm-node-runner
 A homematic nodejs script runner.
 
-## Getting Started
+# Getting Started
+## Native installation
 ### Prerequisites
 #### Install git
 ```
@@ -11,7 +12,7 @@ sudo apt-get install git
 #### Install node.js
 ```
 sudo apt-get update
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_17.x | sudo -E bash -
 sudo apt-get install -y nodejs
 node -v
 ```
@@ -32,6 +33,51 @@ sudo vim /etc/environment
 ```
 NODE_ENV=prod
 ```
+### Configuration 
+```
+vim ./config/prod.conf 
+```
+
+### Run in Background
+Setup a background process with autostart
+```
+sudo npm install pm2@latest -g
+pm2 start lib/hm-node-runner
+pm2 startup systemd
+sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
+pm2 list
+pm2 save
+```
+
+## Run as Docker Container
+### Installation
+#### Install hm-node-runner project
+```
+docker build -t homematic-node-runner .
+docker-compose up -d
+```
+#### Setup docker-compose and environment 
+```
+version: "3.6"
+services:
+  node:
+    container_name: homematic-node-runner
+    image: "homematic-node-runner"
+    user: "node"
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=prod
+    volumes:
+      - ./volumes/hm-node-runner/config:/home/node/app/config
+      - ./volumes/hm-node-runner/data:/home/node/app/data
+    command: "npm start"
+```
+### Configuration
+Copy config files to ./volumes/hm-node-runner/config
+
+## Configuration
 Now you have to create the configuration
 #### Configuration
 The configuration is done via a central configuration file (PROJECT_ROOT / config / default.json).
@@ -102,16 +148,7 @@ The environment configuration, on the other hand, contains all local adjustments
 **data**: Is Type of the datapoint in your device channel you want to export.<br>
 **dataName**: Is a tag for the InfluxDB. The idea is to group devices by type<br>
 **area**: Is a tag for the InfluxDB. The idea is to group devices by area (First Floor, Roof, Garden)<br> 
-#### Run in Background
-Setup a background process with autostart
-```
-sudo npm install pm2@latest -g
-pm2 start lib/hm-node-runner
-pm2 startup systemd
-sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
-pm2 list
-pm2 save
-```
+
 
 ## Development and build pipeline
 ### Release a new version
@@ -119,15 +156,6 @@ pm2 save
 npm version major|minor|patch
 npm publish
 ```
-
-## Use as Docker Image
-Copy config files to ./volumes/hm-node-runner
-
-```
-docker build -t homematic-node-runner .
-docker-compose up -d
-```
-
 
 ## License
 See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
