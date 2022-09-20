@@ -1,6 +1,10 @@
 'use strict';
 import pJson from '../package.json';
 import { logger } from './logger';
+const config = require('config');
+const myConfig = config.get('hm-node-runner');
+logger.info(pJson.name + ' ' + pJson.version + ' (' + myConfig.mainSetting.env + ')');
+
 import express from 'express';
 import { defineExpressRouteStatus } from './routes/healthcheck';
 import { defineExpressRouteCCUData } from './routes/ccuData';
@@ -9,12 +13,7 @@ import { CcuWorker } from './jobs/ccuWorker';
 import { Km200Worker } from './jobs/km200Worker';
 import { LeveljetWorker } from './jobs/leveljetWorker';
 
-// -- Init app variables -------------------------------
-const config = require('config');
-const myConfig = config.get('hm-node-runner');
-
 // Starting the app
-logger.info(pJson.name + ' ' + pJson.version + ' (' + myConfig.mainSetting.env + ')');
 const status = new Status();
 
 // Start Express App and interface
