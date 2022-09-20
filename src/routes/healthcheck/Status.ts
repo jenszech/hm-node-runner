@@ -37,6 +37,7 @@ export class Status {
         },
       },
       KM200: {
+        Enabled: myConfig.jobs.km200Import.enable,
         Host: myConfig.jobs.km200Import.host,
         PollingIntervall: myConfig.jobs.km200Import.pollingIntervall,
         LastUpdate: {
@@ -46,6 +47,7 @@ export class Status {
         Variables: km200Statistic.variableCount,
       },
       LevelJet: {
+        Enabled: myConfig.jobs.LevelJetImport.enable,
         Interface: myConfig.jobs.LevelJetImport.serialInterface,
         Export: {
           Enabled: myConfig.jobs.LevelJetImport.enableFileExport,

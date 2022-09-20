@@ -14,6 +14,8 @@ export class LeveljetWorker {
 
   constructor(status: Status) {
     this.status = status;
+    this.levelCon = null;
+    if (myConfig.jobs.LevelJetImport.enable === false) return;
     this.levelCon = new LevelJetConnector(myConfig.jobs.LevelJetImport.serialInterface);
   }
 

@@ -21,10 +21,19 @@
         ]
       },
       "km200Import": {
+        "enable": false,
         "host": "<INSERT YOUR IP>",
         "port": 80,
         "key": "<INSERT YOUR KEY>",
         "pollingIntervall": 300
+      },
+      "LevelJetImport": {
+        "enable": false,
+        "serialInterface": "/dev/ttyUSB0",
+        "enableFileExport": true,
+        "exportFile": "./data/leveljet.csv",
+        "exportIntervall": "hourly",
+        "name": "Heizung.oel.stand"
       }
     }
   }

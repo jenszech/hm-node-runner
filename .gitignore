@@ -119,3 +119,7 @@ config/dev.json
 package-lock.json
 LevelExport.csv
 devBackup.json
+config/dev-kopie.json
+config/prod.json
+config/prod-2022-9-19.json
+src/example.js

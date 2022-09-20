@@ -27,7 +27,7 @@
     "postversion": "git push && git push --tags && npm run build"
   },
   "dependencies": {
-    "@serialport/parser-inter-byte-timeout": "^9.2.4",
+    "@serialport/parser-inter-byte-timeout": "^10.3.0",
     "@types/app-root-path": "^1.2.4",
     "@types/express": "^4.17.13",
     "app-root-path": "^3.0.0",
@@ -37,7 +37,7 @@
     "homematic-js-xmlapi": "^0.8.1",
     "influx": "^5.9.3",
     "km200-api": "^0.2.3",
-    "serialport": "^9.2.8",
+    "serialport": "^10.4.0",
     "winston": "^3.5.1"
   },
   "devDependencies": {

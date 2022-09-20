@@ -19,6 +19,7 @@ export class Km200Worker {
   }
 
   public startPolling() {
+    if (myConfig.jobs.km200Import.enable === false) return;
     setInterval(() => this.importKm200Values(), myConfig.jobs.km200Import.pollingIntervall * 1000);
   }
 
@@ -26,6 +27,7 @@ export class Km200Worker {
 
   // KM200 Import and export to homematic
   private importKm200Values() {
+    if (myConfig.jobs.km200Import.enable === false) return;
     logger.debug('start updating km200 values');
     getKm200Values()
       .then((valueMap) => {
