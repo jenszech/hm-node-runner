@@ -20,11 +20,6 @@ RUN npm run build
 
 EXPOSE 8080
 
-# declares this path for persistent storage
-VOLUME ["/home/node/app/config"]
-VOLUME ["/home/node/app/data"]
-VOLUME ["/home/node/app/logs"]
-
 CMD [ "npm", "start" ]
 
 # EOF

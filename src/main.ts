@@ -3,6 +3,7 @@ import pJson from '../package.json';
 import { logger } from './logger';
 const config = require('config');
 const myConfig = config.get('hm-node-runner');
+logger.info('Configuration directory: ' + config.util.getEnv('NODE_CONFIG_DIR'));
 logger.info(pJson.name + ' ' + pJson.version + ' (' + myConfig.mainSetting.env + ')');
 
 import express from 'express';
