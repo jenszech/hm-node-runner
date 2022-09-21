@@ -123,3 +123,4 @@ config/dev-kopie.json
 config/prod.json
 config/prod-2022-9-19.json
 src/example.js
+/volumes/

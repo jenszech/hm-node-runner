@@ -56,6 +56,12 @@ pm2 save
 docker build -t homematic-node-runner .
 docker-compose up -d
 ```
+Alternative aufrufe & debugging hilfen
+```
+docker run -it -p 8080:8080 homematic-node-runner
+docker run -it -p 8080:8080 homematic-node-runner ls -l /home/node/app
+
+```
 #### Setup docker-compose and environment 
 ```
 version: "3.6"

@@ -3,6 +3,7 @@ services:
   node:
     container_name: homematic-node-runner
     image: "homematic-node-runner"
+    build: ./
     user: "node"
     restart: unless-stopped
     ports:
@@ -12,4 +13,5 @@ services:
     volumes:
       - ./volumes/hm-node-runner/config:/home/node/app/config
       - ./volumes/hm-node-runner/data:/home/node/app/data
+      - ./volumes/hm-node-runner/logs:/home/node/app/logs
     command: "npm start"
