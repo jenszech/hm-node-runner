@@ -15,3 +15,9 @@ services:
       - ./volumes/hm-node-runner/data:/home/node/app/data
       - ./volumes/hm-node-runner/logs:/home/node/app/logs
     command: "npm start"
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default

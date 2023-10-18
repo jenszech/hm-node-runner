@@ -9,7 +9,7 @@ COPY --chown=node:node tsconfig.json ./
 COPY --chown=node:node lib/hm-node-runner ./lib
 COPY --chown=node:node src ./src
 
-RUN npm config set unsafe-perm true
+#RUN npm config set unsafe-perm true
 RUN npm install -g npm
 RUN npm install -g typescript
 RUN npm install -g ts-node
