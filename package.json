@@ -24,7 +24,7 @@
     "lint": "tslint -p tsconfig.json",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
-    "postversion": "git push && git push --tags && npm run build"
+    "postversion": "git push && git push --tags && npm run build && git add -A lib && git push"
   },
   "dependencies": {
     "app-root-path": "^3.1.0",
