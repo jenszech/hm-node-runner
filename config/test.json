@@ -1,0 +1,40 @@
+{
+  "hm-node-runner": {
+    "mainSetting": {
+      "env": "test",
+      "logLevel": "info"
+    },
+    "healthcheck": {
+      "port": 8080
+    },
+    "CCU": {
+      "host": "<INSER YOUR IP>",
+      "port": 80,
+      "pollingIntervall": 60
+    },
+    "jobs": {
+      "influxExport": {
+        "host": "<INSERT YOUR IP>",
+        "database": "smartdb",
+        "measurement": "homematic",
+        "exportValues": [
+        ]
+      },
+      "km200Import": {
+        "enable": false,
+        "host": "<INSERT YOUR IP>",
+        "port": 80,
+        "key": "<INSERT YOUR KEY>",
+        "pollingIntervall": 300
+      },
+      "LevelJetImport": {
+        "enable": false,
+        "serialInterface": "/dev/ttyUSB0",
+        "enableFileExport": true,
+        "exportFile": "./data/leveljet.csv",
+        "exportIntervall": "hourly",
+        "name": "Heizung.oel.stand"
+      }
+    }
+  }
+}
