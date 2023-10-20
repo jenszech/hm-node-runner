@@ -2,7 +2,7 @@
 FROM node:18
 
 RUN mkdir -p /home/node/app/lib && chown -R node:node /home/node/app
-RUN mkdir -p /home/node/app/logs && chown -R node:node /home/node/logs
+RUN mkdir -p /home/node/app/logs && chown -R node:node /home/node/app/logs
 WORKDIR /home/node/app
 
 COPY --chown=node:node package*.json ./
