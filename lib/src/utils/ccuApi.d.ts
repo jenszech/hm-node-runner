@@ -1,5 +1,6 @@
 import { DeviceManager, SystemVariableManager, SystemVariable } from 'homematic-js-xmlapi';
 export declare function getSysMgr(): SystemVariableManager;
+export declare function getDevMgr(): DeviceManager;
 export declare function getDeviceList(): void;
 export declare function getCurrentVariables(): Promise<SystemVariableManager>;
 export declare function getCurrentStates(): Promise<DeviceManager>;
