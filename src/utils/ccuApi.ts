@@ -13,6 +13,9 @@ const xmlApi = new XmlApi(myConfig.CCU.host, myConfig.CCU.port);
 export function getSysMgr(): SystemVariableManager {
   return sysMgr;
 }
+export function getDevMgr(): DeviceManager {
+  return devMgr;
+}
 
 function getJson(): object {
   const variable = [];

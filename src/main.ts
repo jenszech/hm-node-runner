@@ -24,7 +24,7 @@ defineExpressRouteCCUData(expressApp);
 
 // start the Express server
 expressApp.listen(myConfig.healthcheck.port, () => {
-  logger.info(`server started at http://localhost:${myConfig.healthcheck.port}`);
+  logger.info(`Server started at http://localhost:${myConfig.healthcheck.port}`);
 });
 
 // -- Initiliase ---------------------------------------
