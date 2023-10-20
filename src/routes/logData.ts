@@ -11,12 +11,11 @@ export function defineExpressRouteLogging(expressApp: core.Express) {
   });
 }
 
-
 function getTime(): object {
   const today = new Date();
-  const now = today.toTimeString().substring(0,8); //chop off the timezone information
+  const now = today.toTimeString().substring(0, 8); // chop off the timezone information
   const result = {
-    time: now
+    time: now,
   };
   logger.info(`Time requested at ${now}`);
   return result;
