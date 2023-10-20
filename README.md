@@ -1,7 +1,173 @@
 # hm-node-runner
 A homematic nodejs script runner.
 
+## Function
+The script extends an existing Homematic CCU by an externally running server component. By means of Typescript various functions can be extended.
+
+Current function:
+* Export selected data (devices & system variables) to an InfluxDB.
+* Retrieve data of a Buderus heater and import it into the Homematic CCU (As SystemVariable)
+* Read data of a serial level sensor and import into the Homematic CCU (As SystemVariable)
+
+Additional Utilities:
+* A REST API for Healthcheck and MOnitoring is provided.
+
+## REST API
+### Healthcheck
+
+#### HTTP Call
+```
+http://localhost:8080/
+```
+#### Result
+```
+{
+  "health": "OK",
+  "StartTime": "2023-10-20T07:06:02.732Z",
+  "version": "0.9.0 (prod)",
+  "CCU": {
+    "Host": "192.168.10.5",
+    "PollingIntervall": 300,
+    "Device": {
+      "LastUpdate": {
+        "Updated": 98,
+        "Timestamp": "2023-10-20T07:06:08.126Z"
+      },
+      "Devices": 99,
+      "Channels": 495,
+      "DataPoints": 778
+    },
+    "Variable": {
+      "LastUpdate": {
+        "Updated": 62,
+        "Timestamp": "2023-10-20T07:06:02.784Z"
+      },
+      "Variables": 62
+    }
+  },
+  "KM200": {
+    "Enabled": false,
+    "Host": "192.168.10.22",
+    "PollingIntervall": 300,
+    "LastUpdate": {
+      "Updated": 0,
+      "Timestamp": "2023-10-20T07:06:02.617Z"
+    },
+    "Variables": 0
+  },
+  "LevelJet": {
+    "Enabled": false,
+    "Interface": "/dev/ttyUSB0",
+    "Export": {
+      "Enabled": true,
+      "File": "./data/leveljet.csv",
+      "Interval": "hourly"
+    },
+    "LastUpdate": {
+      "Updated": "2023-10-20T07:06:02.717Z",
+      "Changed": "2023-10-20T07:06:02.717Z",
+      "Failure": 0,
+      "Fuel": 0
+    }
+  }
+}
+```
+### List of Homematic Devices
+
+#### HTTP Call
+```
+http://localhost:8080/data/device
+```
+#### Result
+```
+[
+  {
+    "name": "Fenster EG Flur",
+    "iseId": "20796",
+    "unreach": false,
+    "stickyUnreach": false,
+    "configPending": false,
+    "address": "xxxx",
+    "deviceType": "HMIP-SWDO",
+    "channel": {}
+  },
+  {
+    "name": "Fenster EG Kueche",
+    "iseId": "6911",
+    "unreach": false,
+    "stickyUnreach": false,
+    "configPending": false,
+    "address": "xxxx",
+    "deviceType": "HM-Sec-SCo",
+    "channel": {}
+  }
+]
+```
+
+### List of Homematic Systemvariables
+
+#### HTTP Call
+```
+http://localhost:8080/data/variable
+```
+#### Result
+```
+[
+  {
+    "name": "Alarmzone 1",
+    "iseId": "1346",
+    "value": false,
+    "valueList": "",
+    "valueType": 2,
+    "timestamp": "1970-01-01T00:00:00.000Z"
+  },
+  {
+    "name": "Anwesenheit",
+    "iseId": "13893",
+    "value": true,
+    "valueList": "",
+    "valueType": 2,
+    "timestamp": "2023-10-19T16:21:07.000Z"
+  }
+]
+```
+
 # Getting Started
+## Run as Docker Container
+### Installation
+#### Install hm-node-runner project
+```
+docker build -t homematic-node-runner .
+docker-compose up -d
+```
+Alternative aufrufe & debugging hilfen
+```
+docker run -it -p 8080:8080 homematic-node-runner
+docker run -it -p 8080:8080 homematic-node-runner ls -l /home/node/app
+
+```
+#### Setup docker-compose and environment 
+```
+version: "3.6"
+services:
+  node:
+    container_name: homematic-node-runner
+    image: "homematic-node-runner"
+    user: "node"
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=prod
+    volumes:
+      - ./volumes/hm-node-runner/config:/home/node/app/config
+      - ./volumes/hm-node-runner/data:/home/node/app/data
+      - ./volumes/hm-node-runner/logs:/home/node/app/logs
+    command: "npm start"
+```
+### Configuration
+Copy config files to ./volumes/hm-node-runner/config
+
 ## Native installation
 ### Prerequisites
 #### Install git
@@ -49,40 +215,6 @@ pm2 list
 pm2 save
 ```
 
-## Run as Docker Container
-### Installation
-#### Install hm-node-runner project
-```
-docker build -t homematic-node-runner .
-docker-compose up -d
-```
-Alternative aufrufe & debugging hilfen
-```
-docker run -it -p 8080:8080 homematic-node-runner
-docker run -it -p 8080:8080 homematic-node-runner ls -l /home/node/app
-
-```
-#### Setup docker-compose and environment 
-```
-version: "3.6"
-services:
-  node:
-    container_name: homematic-node-runner
-    image: "homematic-node-runner"
-    user: "node"
-    restart: unless-stopped
-    ports:
-      - "8080:8080"
-    environment:
-      - NODE_ENV=prod
-    volumes:
-      - ./volumes/hm-node-runner/config:/home/node/app/config
-      - ./volumes/hm-node-runner/data:/home/node/app/data
-    command: "npm start"
-```
-### Configuration
-Copy config files to ./volumes/hm-node-runner/config
-
 ## Configuration
 Now you have to create the configuration
 #### Configuration
@@ -127,7 +259,7 @@ The environment configuration, on the other hand, contains all local adjustments
 {
   "hm-node-runner": {
     "mainSetting": {
-      "env": "dev",
+      "env": "prod",
       "logLevel": "debug"
     },
     "CCU": {
