@@ -9,6 +9,7 @@ logger.info(pJson.name + ' ' + pJson.version + ' (' + myConfig.mainSetting.env +
 import express from 'express';
 import { defineExpressRouteStatus } from './routes/healthcheck';
 import { defineExpressRouteCCUData } from './routes/ccuData';
+import { defineExpressRouteLogging } from './routes/logData';
 import { Status } from './routes/healthcheck/Status';
 import { CcuWorker } from './jobs/ccuWorker';
 import { Km200Worker } from './jobs/km200Worker';
@@ -19,8 +20,10 @@ const status = new Status();
 
 // Start Express App and interface
 const expressApp = express();
+defineExpressRouteLogging(expressApp);
 defineExpressRouteStatus(status, expressApp);
 defineExpressRouteCCUData(expressApp);
+
 
 // start the Express server
 expressApp.listen(myConfig.healthcheck.port, () => {
