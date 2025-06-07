@@ -1,4 +1,8 @@
 'use strict';
+
+console.log('Starting ' + process.title + '...');
+console.log('Node.js version: ' + process.version);
+console.log('Environment: ' + process.env.NODE_ENV);
 import pJson from '../package.json';
 import { logger } from './logger';
 const config = require('config');
@@ -14,6 +18,7 @@ import { Status } from './routes/healthcheck/Status';
 import { CcuWorker } from './jobs/ccuWorker';
 import { Km200Worker } from './jobs/km200Worker';
 import { LeveljetWorker } from './jobs/leveljetWorker';
+import { InexogyWorker } from './jobs/InexogyWorker';
 
 // Starting the app
 const status = new Status();
@@ -39,6 +44,9 @@ km200Worker.init();
 
 const leveljetWorker = new LeveljetWorker(status);
 leveljetWorker.init();
+
+const inexogyWorker = new InexogyWorker(status);
+inexogyWorker.init();
 
 // Init Polling
 setTimeout(startPollingIntervall, 5000);

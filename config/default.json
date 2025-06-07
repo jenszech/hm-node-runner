@@ -17,8 +17,7 @@
         "host": "<INSERT YOUR IP>",
         "database": "smartdb",
         "measurement": "homematic",
-        "exportValues": [
-        ]
+        "exportValues": []
       },
       "km200Import": {
         "enable": false,
@@ -34,6 +33,13 @@
         "exportFile": "./data/leveljet.csv",
         "exportIntervall": "hourly",
         "name": "Heizung.oel.stand"
+      },
+      "InexogyImport": {
+        "enable": false,
+        "apiUrl": "https://api.discovergy.com/public/v1",
+        "username": "<INSERT YOUR USERNAME>",
+        "password": "<INSERT YOUR PASSWORD>",
+        "pollingIntervall": 60
       }
     }
   }
